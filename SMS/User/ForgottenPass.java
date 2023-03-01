@@ -101,6 +101,11 @@ public class ForgottenPass extends javax.swing.JFrame {
         btnBack1.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         btnBack1.setForeground(new java.awt.Color(0, 153, 204));
         btnBack1.setText("BACK");
+        btnBack1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBack1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-magnifying-glass-tilted-left-48.png"))); // NOI18N
 
@@ -220,6 +225,11 @@ public class ForgottenPass extends javax.swing.JFrame {
         xx = evt.getX();
          xy = evt.getY();
     }//GEN-LAST:event_jPanel2MousePressed
+
+    private void btnBack1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack1ActionPerformed
+        new login().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBack1ActionPerformed
 
     /**
      * @param args the command line arguments
