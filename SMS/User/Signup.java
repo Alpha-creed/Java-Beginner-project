@@ -101,6 +101,9 @@ public class Signup extends javax.swing.JFrame {
         jLabel74.setForeground(new java.awt.Color(255, 255, 255));
         jLabel74.setText("UserID");
         jPanel7.add(jLabel74, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 85, 62, 24));
+
+        jTextField43.setEditable(false);
+        jTextField43.setBackground(new java.awt.Color(204, 204, 204));
         jPanel7.add(jTextField43, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 115, 345, 34));
 
         jLabel75.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
@@ -130,6 +133,12 @@ public class Signup extends javax.swing.JFrame {
         jLabel78.setForeground(new java.awt.Color(255, 255, 255));
         jLabel78.setText("Phone");
         jPanel7.add(jLabel78, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 362, 92, 28));
+
+        jTextField46.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField46KeyTyped(evt);
+            }
+        });
         jPanel7.add(jTextField46, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 396, 340, 34));
 
         jLabel79.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
@@ -214,7 +223,7 @@ public class Signup extends javax.swing.JFrame {
 
     private void init(){
          jTextField43.setBackground(notEdit);
-         jTextField43.setText(String.valueOf(user.getMaxRow()));
+         jTextField43.setText(String.valueOf(user.getMaxRow()+1));
     }
     
     public boolean isEmpty(){
@@ -226,7 +235,7 @@ public class Signup extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Email address is required","Warning",2);
             return false;
         }
-        if(jTextField45.getText().matches("^.+@+\\..+$")){
+        if(!jTextField45.getText().matches("^.+@.+\\..+$")){
             JOptionPane.showMessageDialog(this, "Invalid email address", "Warning",2);
             return false;
         }
@@ -304,8 +313,8 @@ public class Signup extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void jTextField44KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField44KeyTyped
-        char inut = evt.getKeyChar();
-        if(!(inut < '0' || inut > '9') && inut != '\b'){
+        char input = evt.getKeyChar();
+        if(!(input < '0' || input > '9') && input != '\b'){
             evt.consume();
             JOptionPane.showMessageDialog(this, "Username doesn't contain any number","Warning",2);
         }
@@ -346,40 +355,47 @@ public class Signup extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSave6ActionPerformed
 
+    private void jTextField46KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField46KeyTyped
+        // TODO add your handling code here:
+        if(!Character.isDigit(evt.getKeyChar())){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField46KeyTyped
+
     /**
      * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Signup().setVisible(true);
-            }
-        });
-    }
+    //     */
+    //    public static void main(String args[]) {
+    //        /* Set the Nimbus look and feel */
+    //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    //        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+    //         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+    //         */
+    //        try {
+    //            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+    //                if ("Nimbus".equals(info.getName())) {
+    //                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+    //                    break;
+    //                }
+    //            }
+    //        } catch (ClassNotFoundException ex) {
+    //            java.util.logging.Logger.getLogger(Signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    //        } catch (InstantiationException ex) {
+    //            java.util.logging.Logger.getLogger(Signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    //        } catch (IllegalAccessException ex) {
+    //            java.util.logging.Logger.getLogger(Signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    //        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+    //            java.util.logging.Logger.getLogger(Signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    //        }
+    //        //</editor-fold>
+    //
+    //        /* Create and display the form */
+    //        java.awt.EventQueue.invokeLater(new Runnable() {
+    //            public void run() {
+    //                new Signup().setVisible(true);
+    //            }
+    //        });
+    //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack6;
