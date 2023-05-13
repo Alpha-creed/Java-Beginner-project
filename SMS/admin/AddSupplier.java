@@ -1,9 +1,11 @@
-
 package admin;
 
+import dao.Statistics;
+import dao.supplierDao;
 import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import user.ForgottenPass;
 
 /**
@@ -15,13 +17,16 @@ public class AddSupplier extends javax.swing.JFrame {
     /**
      * Creates new form AddSupplier
      */
-         Color textPrimaryColor = new Color(102,120,138);
-    Color primaryColor = new Color(42,58,73);
-    
-    int xx,xy;
-    
+        Statistics stat = new Statistics();
+    Color textPrimaryColor = new Color(102, 120, 138);
+    Color primaryColor = new Color(42, 58, 73);
+    Color notEdit = new Color(204, 204, 204);
+    supplierDao supplier = new supplierDao();
+    int xx, xy;
+
     public AddSupplier() {
         initComponents();
+        init();
     }
 
     /**
@@ -52,6 +57,7 @@ public class AddSupplier extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -85,6 +91,12 @@ public class AddSupplier extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Username");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 71, 22));
+
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField2KeyTyped(evt);
+            }
+        });
         jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 304, 42));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
@@ -102,6 +114,12 @@ public class AddSupplier extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Phone");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 390, 92, 28));
+
+        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField5KeyTyped(evt);
+            }
+        });
         jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 304, 34));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
@@ -112,7 +130,12 @@ public class AddSupplier extends javax.swing.JFrame {
         jPanel1.add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 304, 36));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-hide-30.png"))); // NOI18N
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 340, 43, 36));
+        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel10MouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 340, 43, 36));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
@@ -124,12 +147,22 @@ public class AddSupplier extends javax.swing.JFrame {
         btnSave.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         btnSave.setForeground(new java.awt.Color(0, 153, 204));
         btnSave.setText("SAVE");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 660, 145, 45));
 
         btnBack.setBackground(new java.awt.Color(204, 204, 255));
         btnBack.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         btnBack.setForeground(new java.awt.Color(0, 153, 204));
-        btnBack.setText("BACK");
+        btnBack.setText("Clear");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 660, 123, 45));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -141,6 +174,14 @@ public class AddSupplier extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(296, 23, 37, 37));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-eye-30 (1).png"))); // NOI18N
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 340, -1, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -157,19 +198,76 @@ public class AddSupplier extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void init() {
+        jTextField1.setBackground(notEdit);
+        jTextField1.setText(String.valueOf(supplier.getMaxRow()));
+    }
+
+    private void clear() {
+        jTextField1.setText(String.valueOf(supplier.getMaxRow()));
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jPasswordField1.setText("");
+        jTextField5.setText("");
+        jTextField8.setText("");
+        jTextField4.setText("");
+        stat.admin();
+    }
+
+    public boolean isEmpty() {
+        if (jTextField2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Username is required", "Warning", 2);
+            return false;
+        }
+        if (jTextField3.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Email address is required", "Warning", 2);
+            return false;
+        }
+        if (!jTextField3.getText().matches("^.+@.+\\..+$")) {
+            JOptionPane.showMessageDialog(this, "Invalid email address", "Warning", 2);
+            return false;
+        }
+        if (String.valueOf(jPasswordField1.getPassword()).isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Password is required", "Warning", 2);
+            return false;
+        }
+        if (jTextField5.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Phone Number is required", "Warning", 2);
+            return false;
+        }
+        if (jTextField5.getText().length() > 10) {
+            JOptionPane.showMessageDialog(this, "Phone Number is too long", "Warning", 2);
+            return false;
+        }
+        if (jTextField5.getText().length() < 5) {
+            JOptionPane.showMessageDialog(this, "Phone Number is too short", "Warning", 2);
+            return false;
+        }
+        if (jTextField8.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Address 1 is required", "Warning", 2);
+            return false;
+        }
+        if (jTextField4.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Address 2 is required", "Warning", 2);
+            return false;
+        }
+
+        return true;
+    }
+
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
-            setVisible(false);
+        setVisible(false);
         admin_Dashboard.jPanel4.setBackground(primaryColor);
         admin_Dashboard.jPanel15.setBackground(primaryColor);
         admin_Dashboard.jLabel28.setForeground(textPrimaryColor);
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-          for(double i = 0;i<=1.0;i+=0.1){
-            String s = ""+i;
-                float f  = Float.parseFloat(s);
-                this.setOpacity(f);
+        for (double i = 0; i <= 1.0; i += 0.1) {
+            String s = "" + i;
+            float f = Float.parseFloat(s);
+            this.setOpacity(f);
             try {
                 Thread.sleep(40);
             } catch (InterruptedException ex) {
@@ -191,40 +289,96 @@ public class AddSupplier extends javax.swing.JFrame {
         xy = evt.getY();
     }//GEN-LAST:event_jPanel1MousePressed
 
+    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+        jPasswordField1.setEchoChar((char) 0);
+        jLabel10.setVisible(false);
+        jLabel7.setVisible(true);
+    }//GEN-LAST:event_jLabel10MouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        jPasswordField1.setEchoChar('*');
+        jLabel10.setVisible(true);
+        jLabel7.setVisible(false);
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+        char input = evt.getKeyChar();
+        if (!(input < '0' || input > '9') && input != '\b') {
+            evt.consume();
+            JOptionPane.showMessageDialog(this, "Username doesn't contain any number", "Warning", 2);
+        }
+    }//GEN-LAST:event_jTextField2KeyTyped
+
+    private void jTextField5KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyTyped
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField5KeyTyped
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        if (isEmpty()) {
+            int id = Integer.parseInt(jTextField1.getText());
+            String username = jTextField2.getText();
+            String email = jTextField3.getText();
+            String password = String.valueOf(jPasswordField1.getPassword()).toString();
+            String phone = jTextField5.getText();
+            String address1 = jTextField8.getText();
+            String address2 = jTextField4.getText();
+            if (!supplier.isUsernameExist(username)) {
+                if (!supplier.isEmailExist(email)) {
+                    if (!supplier.isPhoneExist(phone)) {
+                           supplier.insert(id, username, email,  password, phone, address1, address2);
+                           clear( );
+                    } else {
+                        JOptionPane.showMessageDialog(this, "This phone number already exists");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "This email already exists");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "This username already exists");
+            }
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        clear();
+    }//GEN-LAST:event_btnBackActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddSupplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddSupplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddSupplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddSupplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AddSupplier().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(AddSupplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(AddSupplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(AddSupplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(AddSupplier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new AddSupplier().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
@@ -237,6 +391,7 @@ public class AddSupplier extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
